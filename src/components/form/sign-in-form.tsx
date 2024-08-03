@@ -1,7 +1,8 @@
-import z from "zod";
+import { useEffect } from "react";
 import { Key, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import z from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInFormSchema } from "@/lib/auth.schema";
@@ -16,8 +17,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useLogin } from "@/hooks/auth.hook";
 
 export const SignInForm = () => {
+  const { loginFn, isSuccess } = useLogin();
+  const navigate = useNavigate();
+
   const form = useForm<z.infer<typeof signInFormSchema>>({
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
@@ -26,12 +31,18 @@ export const SignInForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof signInFormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof signInFormSchema>) => {
+    await loginFn(values);
   };
 
   const onFacebookAuth = () => {};
   const onGoogleAuth = () => {};
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+    }
+  }, [isSuccess, navigate]);
+
   return (
     <Form {...form}>
       <form

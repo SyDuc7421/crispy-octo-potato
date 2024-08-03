@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { Button } from "@/components/ui/button";
 import { SignInForm } from "@/components/form/sign-in-form";
@@ -8,14 +9,18 @@ import { SignUpForm } from "@/components/form/sign-up-form";
 
 const AuthPage = () => {
   const navigate = useNavigate();
+  const loggedIn = Cookies.get("logged_in");
   const [login, setLogin] = useState<boolean>(true);
 
   const onSwitchStateHandler = () => {
     setLogin((prevState) => !prevState);
   };
+  if (loggedIn) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="relative flex h-screen w-screen items-center justify-center bg-background text-foreground">
-      {login ? <SignInForm /> : <SignUpForm />}
+      {login ? <SignInForm /> : <SignUpForm setLogin={setLogin} />}
       <div className="absolute right-4 top-4">
         <Button
           size="lg"

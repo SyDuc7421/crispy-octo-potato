@@ -16,8 +16,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useRegister } from "@/hooks/auth.hook";
+import { useEffect } from "react";
 
-export const SignUpForm = () => {
+interface FormProps {
+  setLogin: (value: boolean) => void;
+}
+
+export const SignUpForm = ({ setLogin }: FormProps) => {
+  const { registerFn, isSuccess } = useRegister();
+
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -26,12 +34,18 @@ export const SignUpForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof signUpFormSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof signUpFormSchema>) => {
+    await registerFn({ ...values, name: values.username });
   };
 
   const onFacebookAuth = () => {};
   const onGoogleAuth = () => {};
+
+  useEffect(() => {
+    if (isSuccess) {
+      setLogin(true);
+    }
+  }, [isSuccess, setLogin]);
   return (
     <Form {...form}>
       <form
@@ -50,8 +64,8 @@ export const SignUpForm = () => {
               <FormControl>
                 <div className="relative w-full">
                   <Input
-                    type="email"
-                    placeholder="Enter your email"
+                    type="text"
+                    placeholder="Enter your username"
                     className="ps-8"
                     {...field}
                   />

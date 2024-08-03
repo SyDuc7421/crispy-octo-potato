@@ -3,6 +3,9 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { Toaster } from "@/components/ui/sonner";
+
 import HomePage from "./pages/home-page";
 import AuthPage from "./pages/auth-page";
 
@@ -21,10 +24,21 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <Toaster />
+      </QueryClientProvider>
     </>
   );
 }

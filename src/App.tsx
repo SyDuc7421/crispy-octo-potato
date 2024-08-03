@@ -8,6 +8,8 @@ import { Toaster } from "@/components/ui/sonner";
 
 import HomePage from "./pages/home-page";
 import AuthPage from "./pages/auth-page";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const router = createBrowserRouter([
   {
@@ -36,8 +38,10 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <Toaster />
+        <Provider store={store}>
+          <RouterProvider router={router} />
+          <Toaster />
+        </Provider>
       </QueryClientProvider>
     </>
   );

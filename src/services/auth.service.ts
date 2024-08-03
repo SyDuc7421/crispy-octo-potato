@@ -42,8 +42,8 @@ export const login = async (data: loginRequestProps) => {
     "/login",
     data,
   );
-  if (response.status != 200) {
-    throw new Error("Login failed");
+  if (response.status !== 200) {
+    throw new Error(response.message);
   }
   return response;
 };
@@ -66,8 +66,8 @@ export const register = async (data: registerRequestProps) => {
     "/register",
     data,
   );
-  if (response.status != 201) {
-    throw new Error("Registration failed");
+  if (response.status !== 201) {
+    throw new Error(response.message);
   }
   return response;
 };
@@ -76,10 +76,27 @@ export type refreshResponseProps = {
   status: string;
   access_token: string;
 };
+
 export const refresh = async () => {
   const response = await instance.get("/refresh");
-  if (response.status != 200) {
+  if (response.status !== 200) {
     throw new Error("Registration failed");
+  }
+  return response;
+};
+
+export type verifyResponseProps = {
+  status: string;
+  message: string;
+};
+
+export const verify = async ({ verifyCode }: { verifyCode: string }) => {
+  const response: ApiResponse<verifyResponseProps> = await instance.get(
+    `/verifyemail/${verifyCode}`,
+  );
+
+  if (response.status !== 200) {
+    throw new Error(response.message);
   }
   return response;
 };

@@ -1,4 +1,4 @@
-import { login, register } from "@/services/auth.service";
+import { login, register, verify } from "@/services/auth.service";
 import { toast } from "sonner";
 import { useMutation } from "react-query";
 import { logout } from "@/services";
@@ -10,14 +10,17 @@ export const useRegister = () => {
     isLoading,
     isError,
     isSuccess,
-  } = useMutation(register);
+  } = useMutation(register, {
+    onError: (error: any) => {
+      toast.error(`Register failed: ${error.message}`);
+    },
+  });
 
   useEffect(() => {
-    if (isError) {
-      toast.error("Registration failed");
-    }
     if (isSuccess) {
-      toast.success("Registration successfully");
+      toast.success(
+        "Registration successful, Verify code has been sent to your email",
+      );
     }
   }, [isSuccess, isError]);
 
@@ -35,12 +38,13 @@ export const useLogin = () => {
     isLoading,
     isError,
     isSuccess,
-  } = useMutation(login);
+  } = useMutation(login, {
+    onError: (error: any) => {
+      toast.error(`Login failed: ${error.message}`);
+    },
+  });
 
   useEffect(() => {
-    if (isError) {
-      toast.error("Login failed");
-    }
     if (isSuccess) {
       toast.success("Logged in successfully");
     }
@@ -72,6 +76,31 @@ export const useLogout = () => {
   }, [isSuccess, isError]);
   return {
     logoutFn,
+    isLoading,
+    isSuccess,
+    isError,
+  };
+};
+
+export const useVerify = () => {
+  const {
+    mutateAsync: verifyFn,
+    isLoading,
+    isError,
+    isSuccess,
+  } = useMutation(verify, {
+    onError: (error: any) => {
+      toast.error(`Verify failed: ${error.message}`);
+    },
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Verify email successfully");
+    }
+  }, [isSuccess]);
+  return {
+    verifyFn,
     isLoading,
     isSuccess,
     isError,

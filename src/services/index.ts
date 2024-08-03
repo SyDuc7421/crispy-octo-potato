@@ -46,9 +46,10 @@ instance.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     const { response, config } = error;
+    const refresh_token = Cookies.get("refresh_token");
 
     if (response.status === 401 || response.status === 403) {
-      if (window.location.pathname !== "/auth") {
+      if (window.location.pathname !== "/auth" && refresh_token) {
         await refresh(); // Call refresh if access token is expired and url !== auth
         return instance.request(config);
       }
@@ -66,7 +67,7 @@ instance.interceptors.response.use(
 export const logout = async () => {
   const response: ApiResponse<{ message: string }> =
     await instance.get("/auth/logout");
-  if (response.status == 200) {
+  if (response.status === 200) {
     return response;
   }
   throw new Error("Logout failed");

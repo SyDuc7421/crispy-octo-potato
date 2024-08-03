@@ -20,7 +20,7 @@ const AuthPage = () => {
   }
   return (
     <div className="relative flex h-screen w-screen items-center justify-center bg-background text-foreground">
-      {login ? <SignInForm /> : <SignUpForm setLogin={setLogin} />}
+      {login ? <SignInForm /> : <SignUpForm />}
       <div className="absolute right-4 top-4">
         <Button
           size="lg"
@@ -38,7 +38,7 @@ const AuthPage = () => {
           className="transition duration-300 hover:bg-destructive hover:text-destructive-foreground"
           onClick={() => navigate("/")}
         >
-          <X className="h-5 w-5 stroke-2 text-primary hover:text-destructive-foreground" />
+          <X className="h-5 w-5 stroke-2 text-primary transition duration-300 hover:text-destructive-foreground" />
         </Button>
       </div>
     </div>

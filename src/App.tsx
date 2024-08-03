@@ -10,6 +10,7 @@ import HomePage from "./pages/home-page";
 import AuthPage from "./pages/auth-page";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import VerifyEmailPage from "./pages/verify-email-page";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,14 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthPage />,
+  },
+  {
+    path: "/verifyemail/:verifycode",
+    element: <VerifyEmailPage />,
+  },
+  {
+    path: "/verifyemail",
+    element: <VerifyEmailPage />,
   },
 ]);
 

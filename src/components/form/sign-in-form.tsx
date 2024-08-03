@@ -99,12 +99,20 @@ export const SignInForm = () => {
           Sign in
         </Button>
 
-        <Link
-          to="/"
-          className="text-sm opacity-55 transition duration-300 hover:underline hover:opacity-100"
-        >
-          Forgot your password?
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            to="/"
+            className="text-sm opacity-55 transition duration-300 hover:underline hover:opacity-100"
+          >
+            Forgot your password?
+          </Link>
+          <Link
+            to="/verifyemail"
+            className="text-sm opacity-55 transition duration-300 hover:underline hover:opacity-100"
+          >
+            Verify your email?
+          </Link>
+        </div>
         <div className="flex w-full items-center justify-between gap-2">
           <div className="flex-grow border-b-2 border-gray-400" />
           <span>Or continue with</span>

@@ -1,7 +1,7 @@
 import z from "zod";
 import { Key, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpFormSchema } from "@/lib/auth.schema";
@@ -19,12 +19,9 @@ import { Button } from "@/components/ui/button";
 import { useRegister } from "@/hooks/auth.hook";
 import { useEffect } from "react";
 
-interface FormProps {
-  setLogin: (value: boolean) => void;
-}
-
-export const SignUpForm = ({ setLogin }: FormProps) => {
+export const SignUpForm = () => {
   const { registerFn, isSuccess } = useRegister();
+  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
     resolver: zodResolver(signUpFormSchema),
@@ -43,9 +40,9 @@ export const SignUpForm = ({ setLogin }: FormProps) => {
 
   useEffect(() => {
     if (isSuccess) {
-      setLogin(true);
+      navigate("/verifyemail");
     }
-  }, [isSuccess, setLogin]);
+  }, [isSuccess]);
   return (
     <Form {...form}>
       <form

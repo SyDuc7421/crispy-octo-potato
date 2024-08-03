@@ -1,5 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
+import { usePosition } from "@/hooks/weather.hook";
 
 interface SearchFeildProps {
   input: string;
@@ -8,6 +9,14 @@ interface SearchFeildProps {
 }
 
 export const Search = ({ input, setInput, onSubmit }: SearchFeildProps) => {
+  const { getPosition, position } = usePosition();
+
+  const currentLocationHandler = () => {
+    getPosition();
+    if (position.latitude !== -1 && position.longitude !== -1) {
+      onSubmit(`${position.latitude} ${position.longitude}`);
+    }
+  };
   return (
     <div className="h-fit w-full p-8 lg:h-full">
       <div className="flex flex-col space-y-6">
@@ -32,7 +41,7 @@ export const Search = ({ input, setInput, onSubmit }: SearchFeildProps) => {
       <Button
         variant="outline"
         className="w-full flex-grow capitalize"
-        onClick={() => onSubmit("Ho Chi Minh")}
+        onClick={() => currentLocationHandler()}
       >
         Use Current Location
       </Button>

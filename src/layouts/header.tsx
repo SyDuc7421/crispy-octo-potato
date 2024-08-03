@@ -1,4 +1,6 @@
 import { Profile } from "@/components/profile";
+import { Button } from "@/components/ui/button";
+import { Bell } from "lucide-react";
 
 export const Header = () => {
   return (
@@ -6,7 +8,12 @@ export const Header = () => {
       <span className="text-xl font-bold md:text-2xl lg:text-3xl">
         Weather forecast
       </span>
-      <Profile />
+      <div className="flex items-center gap-6">
+        <Button size="icon" className="transition duration-300">
+          <Bell className="h-6 w-6 transition duration-300 hover:rotate-12" />
+        </Button>
+        <Profile />
+      </div>
     </div>
   );
 };

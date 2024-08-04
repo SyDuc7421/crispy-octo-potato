@@ -5,33 +5,43 @@ import { useAppDispatch } from "@/store/store";
 import { setUser } from "@/store/user.slice";
 import { Search } from "@/components/search-feild";
 import { Dashboard } from "@/components/dashboard";
-import { useWeather } from "@/hooks/weather.hook";
+import { useHistory, useWeather } from "@/hooks/weather.hook";
+import { forecastProps } from "@/services/weather.service";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const { userInfo, isSuccess } = useMe();
+  const { userInfo, isSuccess: isUserSuccess } = useMe();
   const {
     fetchFn: fetchWeather,
     data: weatherInfo,
-    isSuccess: weatherSuccess,
+    isSuccess: isWeatherSuccess,
   } = useWeather();
+  const { history, isSuccess: isHistorySuccess } = useHistory();
+
   const [search, setSeach] = useState<string>("");
+  const [data, setData] = useState<forecastProps | undefined>();
 
   const searchHandler = async (search: string) => {
     await fetchWeather({ position: search, days: 5 });
   };
 
   useEffect(() => {
-    if (weatherSuccess && weatherInfo) {
-      console.log(weatherInfo);
+    if (isHistorySuccess && history) {
+      setData(history);
     }
-  }, [isSuccess, weatherInfo]);
+  }, [isHistorySuccess, history]);
 
   useEffect(() => {
-    if (isSuccess && userInfo) {
+    if (isWeatherSuccess && weatherInfo) {
+      setData(weatherInfo);
+    }
+  }, [isWeatherSuccess, weatherInfo]);
+
+  useEffect(() => {
+    if (isUserSuccess && userInfo) {
       dispatch(setUser(userInfo));
     }
-  }, [isSuccess]);
+  }, [isUserSuccess, userInfo]);
 
   return (
     <div className="min-h-screen w-screen bg-blue-100">
@@ -39,9 +49,9 @@ const HomePage = () => {
       <div className="grid w-full lg:grid-cols-[1fr_2fr]">
         <Search input={search} setInput={setSeach} onSubmit={searchHandler} />
         <Dashboard
-          current={weatherInfo?.current}
-          location={weatherInfo?.location}
-          forecast={weatherInfo?.forecast}
+          current={data?.current}
+          location={data?.location}
+          forecast={data?.forecast}
         />
       </div>
     </div>

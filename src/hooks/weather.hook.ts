@@ -1,6 +1,6 @@
-import { weather } from "@/services/weather.service";
+import { historyWeather, weather } from "@/services/weather.service";
 import { useEffect, useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
 
 export const useWeather = () => {
@@ -67,4 +67,20 @@ export const usePosition = () => {
   }, [error]);
 
   return { position, error, getPosition };
+};
+
+export const useHistory = () => {
+  const {
+    data: history,
+    isError,
+    isSuccess,
+    isLoading,
+  } = useQuery("fetch/history", historyWeather);
+
+  return {
+    history: history?.data.forecast,
+    isError,
+    isLoading,
+    isSuccess,
+  };
 };

@@ -8,12 +8,14 @@ export type weatherRequestProps = {
 
 export type weatherResponseProps = {
   status: string;
+  forecast: forecastProps;
+};
+
+export type forecastProps = {
+  location: locationProps;
+  current: currentProps;
   forecast: {
-    location: locationProps;
-    current: currentProps;
-    forecast: {
-      forecastday: dayProps[];
-    };
+    forecastday: dayProps[];
   };
 };
 
@@ -26,6 +28,15 @@ export const weather = async (data: weatherRequestProps) => {
     `/weathers?${params.toString()}`,
   );
 
+  if (response.status !== 200) {
+    throw new Error(response.message);
+  }
+  return response;
+};
+
+export const historyWeather = async () => {
+  const response: ApiResponse<weatherResponseProps> =
+    await axios.get(`/weathers/history`);
   if (response.status !== 200) {
     throw new Error(response.message);
   }

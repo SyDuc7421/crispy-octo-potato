@@ -43,7 +43,11 @@ export const Header = () => {
         Weather forecast
       </span>
       <div className="flex items-center gap-6">
-        {subcribe ? (
+        {!logged_in ? (
+          <Button size="lg" variant="secondary" onClick={onSubcribeHandler}>
+            Subcribe
+          </Button>
+        ) : subcribe ? (
           <Button size="lg" variant="secondary" onClick={onSubcribeHandler}>
             Subcribed
           </Button>

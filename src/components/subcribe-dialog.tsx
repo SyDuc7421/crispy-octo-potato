@@ -12,14 +12,20 @@ import { Input } from "./ui/input";
 import { useEffect, useState } from "react";
 import { useSubcribe } from "@/hooks/user.hook";
 import { toast } from "sonner";
+import Cookies from "js-cookie";
 
 export const SubcribeButton = () => {
+  const logged_in = Cookies.get("logged_in");
   const [input, setInput] = useState<string>("");
   const { subcribeFn, isSuccess } = useSubcribe();
 
   const onSubmit = async (value: string) => {
-    await subcribeFn({ location: value });
-    setInput("");
+    if (!logged_in) {
+      toast.error("You must be logged in before performing this action.");
+    } else {
+      await subcribeFn({ location: value });
+      setInput("");
+    }
   };
 
   useEffect(() => {

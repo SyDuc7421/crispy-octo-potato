@@ -48,6 +48,7 @@ export const Profile = () => {
           <DropdownMenuContent
             className="flex min-w-[160px] flex-col justify-center space-y-2"
             align="end"
+            sideOffset={18}
           >
             <DropdownMenuLabel>
               <div className="flex flex-col gap-2 text-center">

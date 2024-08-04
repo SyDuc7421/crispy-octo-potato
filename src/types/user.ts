@@ -5,4 +5,8 @@ export type IUser = {
   photo?: string;
   enable?: boolean;
   verify?: boolean;
+  subcribe?: boolean;
+  role?: "user" | "admin";
+  created_at: string;
+  updated_at: string;
 };

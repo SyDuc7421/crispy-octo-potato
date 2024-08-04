@@ -47,7 +47,7 @@ export const SignUpForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex min-w-full flex-col space-y-4 px-4 lg:min-w-[480px]"
+        className="flex min-w-full flex-col space-y-4 px-12 lg:min-w-[480px] lg:p-4"
       >
         <span className="text-center text-2xl font-semibold uppercase lg:text-3xl">
           SIGN UP

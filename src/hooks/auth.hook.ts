@@ -3,6 +3,8 @@ import { toast } from "sonner";
 import { useMutation } from "react-query";
 import { logout } from "@/services";
 import { useEffect } from "react";
+import { store } from "@/store/store";
+import { logout as dispatchLogout } from "@/store/user.slice";
 
 export const useRegister = () => {
   const {
@@ -72,6 +74,7 @@ export const useLogout = () => {
     }
     if (isSuccess) {
       toast.success("Logged out successfully");
+      store.dispatch(dispatchLogout());
     }
   }, [isSuccess, isError]);
   return {

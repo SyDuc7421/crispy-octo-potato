@@ -1,5 +1,5 @@
 import z from "zod";
-import { Key, Mail, User } from "lucide-react";
+import { Key, LoaderCircle, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -20,7 +20,7 @@ import { useRegister } from "@/hooks/auth.hook";
 import { useEffect } from "react";
 
 export const SignUpForm = () => {
-  const { registerFn, isSuccess } = useRegister();
+  const { registerFn, isSuccess, isLoading } = useRegister();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof signUpFormSchema>>({
@@ -117,7 +117,14 @@ export const SignUpForm = () => {
         />
 
         <Button type="submit" className="capitalize">
-          Sign up
+          {!isLoading ? (
+            "Sign up"
+          ) : (
+            <div className="flex items-center">
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              <span>Loading ...</span>
+            </div>
+          )}
         </Button>
         <div className="flex w-full items-center justify-between gap-2">
           <div className="flex-grow border-b-2 border-gray-400" />

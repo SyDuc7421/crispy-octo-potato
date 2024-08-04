@@ -1,6 +1,7 @@
 import { Profile } from "@/components/profile";
+import { SubcribeButton } from "@/components/subcribe-dialog";
 import { Button } from "@/components/ui/button";
-import { useSubcribe, useUnsubcribe } from "@/hooks/user.hook";
+import { useUnsubcribe } from "@/hooks/user.hook";
 import { useAppSelector } from "@/store/store";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
@@ -10,7 +11,6 @@ export const Header = () => {
   const logged_in = Cookies.get("logged_in");
   const isSubcribe = useAppSelector((state) => state.auth.user?.subcribe);
   const [subcribe, setSubcribe] = useState<boolean>(isSubcribe || false);
-  const { subcribeFn, isSuccess: subcribeSuccess } = useSubcribe();
   const { unsubcribeFn, isSuccess: unsubcribeSuccess } = useUnsubcribe();
 
   const onSubcribeHandler = async () => {
@@ -20,25 +20,16 @@ export const Header = () => {
       // TODO: Call subcribe API
       if (subcribe) {
         await unsubcribeFn();
-      } else {
-        {
-          await subcribeFn();
-        }
       }
     }
   };
 
   useEffect(() => {
-    if (subcribeSuccess) {
-      setSubcribe(true);
-      toast.success("Subcribe weather notify success");
-    }
-
     if (unsubcribeSuccess) {
       setSubcribe(false);
       toast.info("Unsubcribe weather notify success");
     }
-  }, [unsubcribeSuccess, subcribeSuccess]);
+  }, [unsubcribeSuccess]);
 
   useEffect(() => {
     if (isSubcribe) {
@@ -52,9 +43,14 @@ export const Header = () => {
         Weather forecast
       </span>
       <div className="flex items-center gap-6">
-        <Button size="lg" variant="secondary" onClick={onSubcribeHandler}>
-          {subcribe ? "Subcribed" : "Subcribe"}
-        </Button>
+        {subcribe ? (
+          <Button size="lg" variant="secondary" onClick={onSubcribeHandler}>
+            Subcribed
+          </Button>
+        ) : (
+          <SubcribeButton />
+        )}
+
         <Profile />
       </div>
     </div>

@@ -11,12 +11,10 @@ import {
 import { HelpCircle, Mail, Settings, User } from "lucide-react";
 import Cookies from "js-cookie";
 import { useLogout } from "@/hooks/auth.hook";
-import { useAppDispatch, useAppSelector } from "@/store/store";
-import { logout as dispathLogout } from "@/store/user.slice";
+import { useAppSelector } from "@/store/store";
 
 export const Profile = () => {
   const navigte = useNavigate();
-  const dispath = useAppDispatch();
 
   const logged_in = Cookies.get("logged_in");
   const { logoutFn } = useLogout();
@@ -24,7 +22,6 @@ export const Profile = () => {
 
   const logout = async () => {
     await logoutFn();
-    dispath(dispathLogout());
   };
 
   return (

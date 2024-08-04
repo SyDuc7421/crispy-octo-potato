@@ -17,9 +17,10 @@ export const getMe = async () => {
   return response;
 };
 
-export const subcribeEmail = async () => {
-  const response: ApiResponse<getMeResponseProps> =
-    await axios.get("/users/subcribe");
+export const subcribeEmail = async ({ location }: { location: string }) => {
+  const response: ApiResponse<getMeResponseProps> = await axios.get(
+    `/users/subcribe/${location}`,
+  );
   if (response.status !== 200) {
     throw new Error(response.message);
   }

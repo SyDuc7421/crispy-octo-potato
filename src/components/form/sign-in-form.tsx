@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Key, Mail } from "lucide-react";
+import { Chrome, Facebook, Key, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import z from "zod";
@@ -125,11 +125,7 @@ export const SignInForm = () => {
             className="flex flex-grow items-center"
             onClick={onFacebookAuth}
           >
-            <img
-              src="./src/assets/svg/facebook.svg"
-              alt="facebook-icon"
-              className="mr-2 h-5 w-5 object-cover"
-            />
+            <Facebook className="mr-2 h-4 w-4" />
             <span>Facebook</span>
           </Button>
           <Button
@@ -137,12 +133,8 @@ export const SignInForm = () => {
             className="flex flex-grow items-center"
             onClick={onGoogleAuth}
           >
-            <img
-              src="./src/assets/svg/google.svg"
-              alt="facebook-icon"
-              className="mr-2 h-5 w-5 object-cover"
-            />
-            <span>Facebook</span>
+            <Chrome className="mr-2 h-4 w-4" />
+            <span>Goolge</span>
           </Button>
         </div>
       </form>

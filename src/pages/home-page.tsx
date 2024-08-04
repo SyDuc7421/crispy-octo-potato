@@ -15,6 +15,7 @@ const HomePage = () => {
     fetchFn: fetchWeather,
     data: weatherInfo,
     isSuccess: isWeatherSuccess,
+    isLoading,
   } = useWeather();
   const { history, isSuccess: isHistorySuccess } = useHistory();
 
@@ -47,7 +48,12 @@ const HomePage = () => {
     <div className="min-h-screen w-screen bg-blue-100">
       <Header></Header>
       <div className="grid w-full lg:grid-cols-[1fr_2fr]">
-        <Search input={search} setInput={setSeach} onSubmit={searchHandler} />
+        <Search
+          input={search}
+          setInput={setSeach}
+          onSubmit={searchHandler}
+          isLoading={isLoading}
+        />
         <Dashboard
           current={data?.current}
           location={data?.location}

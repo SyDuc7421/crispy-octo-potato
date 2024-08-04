@@ -1,20 +1,34 @@
+import { KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
 import { usePosition } from "@/hooks/weather.hook";
+import { LoaderCircle } from "lucide-react";
 
 interface SearchFeildProps {
   input: string;
   setInput: (input: string) => void;
   onSubmit: (search: string) => void;
+  isLoading: boolean;
 }
 
-export const Search = ({ input, setInput, onSubmit }: SearchFeildProps) => {
+export const Search = ({
+  input,
+  setInput,
+  onSubmit,
+  isLoading,
+}: SearchFeildProps) => {
   const { getPosition, position } = usePosition();
 
   const currentLocationHandler = () => {
     getPosition();
     if (position.latitude !== -1 && position.longitude !== -1) {
       onSubmit(`${position.latitude} ${position.longitude}`);
+    }
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && input.length >= 3) {
+      onSubmit(input);
     }
   };
   return (
@@ -28,9 +42,17 @@ export const Search = ({ input, setInput, onSubmit }: SearchFeildProps) => {
           className="bg-background text-foreground"
           placeholder="E.g., New York, London, Lodon"
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         <Button type="button" onClick={() => onSubmit(input)}>
-          Search
+          {isLoading ? (
+            <div className="flex items-center">
+              <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+              <span>Loading ...</span>
+            </div>
+          ) : (
+            "Search"
+          )}
         </Button>
       </div>
       <div className="my-2 flex items-center gap-2">

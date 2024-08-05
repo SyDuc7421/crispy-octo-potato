@@ -8,9 +8,17 @@ interface DashboardProps {
   forecast?: {
     forecastday: dayProps[];
   };
+  days: number;
+  setDays: (days: number) => void;
 }
 
-export const Dashboard = ({ location, current, forecast }: DashboardProps) => {
+export const Dashboard = ({
+  location,
+  current,
+  forecast,
+  days,
+  setDays,
+}: DashboardProps) => {
   return (
     <div className="flex h-full w-full flex-col space-y-8 p-6">
       <Billboard location={location} current={current} />
@@ -22,6 +30,8 @@ export const Dashboard = ({ location, current, forecast }: DashboardProps) => {
             (item) => item.date !== location?.localtime.split(" ")[0],
           )
         }
+        days={days}
+        setDays={setDays}
       />
     </div>
   );

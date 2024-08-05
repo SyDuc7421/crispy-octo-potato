@@ -20,10 +20,11 @@ const HomePage = () => {
   const { history, isSuccess: isHistorySuccess } = useHistory();
 
   const [search, setSeach] = useState<string>("");
+  const [days, setDays] = useState<number>(5);
   const [data, setData] = useState<forecastProps | undefined>();
 
   const searchHandler = async (search: string) => {
-    await fetchWeather({ position: search, days: 5 });
+    await fetchWeather({ position: search, days: days });
   };
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const HomePage = () => {
     if (isWeatherSuccess && weatherInfo) {
       setData(weatherInfo);
     }
+    console.log(weatherInfo);
   }, [isWeatherSuccess, weatherInfo]);
 
   useEffect(() => {
@@ -43,6 +45,17 @@ const HomePage = () => {
       dispatch(setUser(userInfo));
     }
   }, [isUserSuccess, userInfo]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (search === "" && isHistorySuccess && history) {
+        await fetchWeather({ position: history.location.name, days });
+      } else if (search.length >= 3) {
+        await fetchWeather({ position: search, days });
+      }
+    };
+    fetchData();
+  }, [days, isHistorySuccess, history, fetchWeather]);
 
   return (
     <div className="min-h-screen w-screen bg-blue-100">
@@ -58,6 +71,8 @@ const HomePage = () => {
           current={data?.current}
           location={data?.location}
           forecast={data?.forecast}
+          days={days}
+          setDays={setDays}
         />
       </div>
     </div>
